@@ -1011,6 +1011,23 @@ instance FromJSON Tag where
 instance FromJSON ExternalDocs where
   parseJSON = genericParseJSON (jsonPrefix "ExternalDocs")
 
+-------------------------------------------------------------------------------
+-- TH splices
+-------------------------------------------------------------------------------
+
+deriveGeneric ''Header
+deriveGeneric ''OAuth2Params
+deriveGeneric ''Operation
+deriveGeneric ''Param
+deriveGeneric ''ParamOtherSchema
+deriveGeneric ''PathItem
+deriveGeneric ''Response
+deriveGeneric ''Responses
+deriveGeneric ''SecurityScheme
+deriveGeneric ''Schema
+deriveGeneric ''ParamSchema
+deriveGeneric ''Swagger
+
 -- =======================================================================
 -- Manual ToJSON instances
 -- =======================================================================
@@ -1332,23 +1349,6 @@ instance FromJSON (ParamSchema 'SwaggerKindSchema) where
 instance FromJSON AdditionalProperties where
   parseJSON (Bool b) = pure $ AdditionalPropertiesAllowed b
   parseJSON js = AdditionalPropertiesSchema <$> parseJSON js
-
--------------------------------------------------------------------------------
--- TH splices
--------------------------------------------------------------------------------
-
-deriveGeneric ''Header
-deriveGeneric ''OAuth2Params
-deriveGeneric ''Operation
-deriveGeneric ''Param
-deriveGeneric ''ParamOtherSchema
-deriveGeneric ''PathItem
-deriveGeneric ''Response
-deriveGeneric ''Responses
-deriveGeneric ''SecurityScheme
-deriveGeneric ''Schema
-deriveGeneric ''ParamSchema
-deriveGeneric ''Swagger
 
 instance HasSwaggerAesonOptions Header where
   swaggerAesonOptions _ = mkSwaggerAesonOptions "header" & saoSubObject ?~ "paramSchema"
